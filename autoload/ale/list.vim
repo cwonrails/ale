@@ -169,3 +169,15 @@ function! s:CloseWindowIfNeeded(buffer) abort
     catch /E444/
     endtry
 endfunction
+
+function! ale#list#CloseWindowIfNotEmpty() abort
+    " Do nothing if the quickfix or location list is the current buffer
+    if getbufvar(bufnr(''), '&buftype') ==# 'quickfix'
+        return
+    endif
+    if g:ale_set_quickfix
+        silent! cclose
+    elseif g:ale_set_loclist
+        silent! lclose
+    endif
+endfunction
